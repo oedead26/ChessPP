@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Coordinate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -30,11 +27,38 @@
     <ClCompile Include="ChessUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="King.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Knight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pawn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Queen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Square.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bishop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Coordinate.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameBoard.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -44,10 +68,34 @@
     <ClInclude Include="Piece.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="PieceColor.h">
+    <ClInclude Include="ChessUI.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="PieceType.h">
+    <ClInclude Include="Game.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="King.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Knight.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pawn.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Queen.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rook.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bishop.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
