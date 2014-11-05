@@ -5,17 +5,12 @@
 #include <iostream>
 using namespace std;
 
-Player::Player()
-{
-
-}
-
 Player::Player(string name, PieceColor color)
 {
 
 }
 
-void Player::takeTurn(Game* game)
+void Player::takeTurn(Game* ptrGame)
 {
 
 }

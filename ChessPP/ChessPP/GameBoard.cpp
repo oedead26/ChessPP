@@ -30,7 +30,7 @@ void GameBoard::setPieceAt(int intRow, int intCol, Piece* ptrPiece)
 
 }
 
-void GameBoard::promotePawn(int intRow, int intCol, PieceType type)
+void GameBoard::promotePawn(int intRow, int intCol, PieceType promotionType)
 {
 
 }

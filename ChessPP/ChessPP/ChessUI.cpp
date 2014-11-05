@@ -4,17 +4,12 @@
 #include <iostream>
 using namespace std;
 
-ChessUI::ChessUI()
-{
-
-}
-
 void ChessUI::startGame()
 {
 
 }
 
-void ChessUI::displayPostTurnInfo(const Player* player) const
+void ChessUI::displayPostTurnInfo(const Player* ptrPlayer) const
 {
 
 }
@@ -34,7 +29,7 @@ void ChessUI::displayGameBoard() const
 
 }
 
-void ChessUI::displayCheckWarning(const Player* player) const
+void ChessUI::displayCheckWarning(const Player* ptrPlayer) const
 {
 
 }

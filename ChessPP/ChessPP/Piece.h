@@ -25,8 +25,8 @@ protected:
 	int intCurrentCol;
 public:
 	Piece(PieceColor color, PieceType type, int row, int col);
-	void setCurrentRow(int row);
-	void setCurrentCol(int col);
+	void setCurrentRow(int intRow);
+	void setCurrentCol(int intCol);
 	PieceColor getColor() const;
 	PieceType getType() const;
 	int getCurrentRow() const;

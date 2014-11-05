@@ -20,7 +20,7 @@ private:
 public:
 	GameBoard();
 	void setPieceAt(int intRow, int intCol, Piece* ptrPiece);
-	void promotePawn(int intRow, int intCol, PieceType type);
+	void promotePawn(int intRow, int intCol, PieceType promotionType);
 	Square getSquare(int intRow, int intCol) const;
 	Piece* getPieceAt(int intRow, int intCol) const;
 	bool isMovePossible(Move potentialMove) const;

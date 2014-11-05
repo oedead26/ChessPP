@@ -13,18 +13,18 @@ using namespace std;
 class Game
 {
 private:
-	Player whitePlayer;
-	Player blackPlayer;
+	Player* ptrWhitePlayer;
+	Player* ptrBlackPlayer;
 	GameBoard currentBoard;
 	vector<GameBoard> vecPreviousBoards;
 	vector<Move> vecPreviousMoves;
 	bool doesMovePutTeamInCheck(Move potentialMove, PieceColor color);
 public:
-	Game(Player white, Player black);
+	Game(Player* ptrWhite, Player* ptrBlack);
 	Game(int intGameID);
 	void saveToDatabase() const;
-	Player getWhitePlayer() const;
-	Player getBlackPlayer() const;
+	Player* getWhitePlayer() const;
+	Player* getBlackPlayer() const;
 	GameBoard getCurrentBoard() const;
 	vector<Move> getLegalMovesFrom(int intRow, int intCol);
 	bool isMoveLegal(Move potentialMove);

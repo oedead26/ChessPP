@@ -8,12 +8,22 @@ Move::Move(Square startSquare, Square endSquare)
 
 }
 
+void Move::setIsPawnPromotionMove(bool isPawnPromotionMove)
+{
+
+}
+
 Square Move::getInitialSquare() const
 {
 
 }
 
 Square Move::getFinalSquare() const
+{
+
+}
+
+bool Move::isPawnPromotionMove() const
 {
 
 }

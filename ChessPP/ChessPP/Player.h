@@ -16,9 +16,8 @@ private:
 	string strName;
 	PieceColor pieceColor;
 public:
-	Player();
 	Player(string name, PieceColor color);
-	void takeTurn(Game* game);
+	void takeTurn(Game* ptrGame);
 	string getName() const;
 	PieceColor getPieceColor() const;
 };

@@ -13,7 +13,7 @@ private:
 	Square* ptrEnPassantCaptureSquare;
 public:
 	Pawn(PieceColor color, int row, int col);
-	void setEnPassantCaptureSquare(Square* square);
+	void setEnPassantCaptureSquare(Square* ptrSquare);
 	void promoteTo(PieceType promotionType);
 	Square* getEnPassantCaptureSquare() const;
 	string getAbbreviation() const;

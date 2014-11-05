@@ -11,7 +11,7 @@ bool Game::doesMovePutTeamInCheck(Move potentialMove, PieceColor color)
 
 }
 
-Game::Game(Player white, Player black)
+Game::Game(Player* white, Player* black)
 {
 
 }
@@ -26,12 +26,12 @@ void Game::saveToDatabase() const
 
 }
 
-Player Game::getWhitePlayer() const
+Player* Game::getWhitePlayer() const
 {
 
 }
 
-Player Game::getBlackPlayer() const
+Player* Game::getBlackPlayer() const
 {
 
 }

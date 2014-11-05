@@ -7,10 +7,11 @@ Knight::Knight(PieceColor color, int row, int col) : Piece(color, KNIGHT, row, c
 
 string Knight::getAbbreviation() const
 {
-
+	return pieceColor == WHITE ? "n" : "N";
 }
 
 bool Knight::isCapableOfMovingTo(int intFinalRow, int intFinalCol, bool boolIsFinalSquareOccupied) const
 {
-
+	return (abs(intFinalRow - intCurrentRow) == 1 && abs(intFinalCol - intCurrentCol) == 2) ||
+		(abs(intFinalRow - intCurrentRow) == 2 && abs(intFinalCol - intCurrentCol) == 1);
 }

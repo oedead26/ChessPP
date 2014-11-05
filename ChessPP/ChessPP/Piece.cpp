@@ -5,35 +5,38 @@ using namespace std;
 
 Piece::Piece(PieceColor color, PieceType type, int row, int col)
 {
-
+	pieceColor = color;
+	pieceType = type;
+	intCurrentRow = row;
+	intCurrentCol = col;
 }
 
-void Piece::setCurrentRow(int row)
+void Piece::setCurrentRow(int intRow)
 {
-
+	intCurrentRow = intRow;
 }
 
-void Piece::setCurrentCol(int col)
+void Piece::setCurrentCol(int intCol)
 {
-
+	intCurrentCol = intCol;
 }
 
 PieceColor Piece::getColor() const
 {
-
+	return pieceColor;
 }
 
 PieceType Piece::getType() const
 {
-
+	return pieceType;
 }
 
 int Piece::getCurrentRow() const
 {
-
+	return intCurrentRow;
 }
 
 int Piece::getCurrentCol() const
 {
-
+	return intCurrentCol;
 }

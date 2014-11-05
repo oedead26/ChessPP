@@ -10,15 +10,14 @@ using namespace std;
 class ChessUI
 {
 private:
-	Game* game;
+	Game* ptrGame;
 public:
-	ChessUI();
 	void startGame();
-	void displayPostTurnInfo(const Player* player) const;
+	void displayPostTurnInfo(const Player* ptrPlayer) const;
 	void displayMoveHistory() const;
 	void displayCapturedPieces() const;
 	void displayGameBoard() const;
-	void displayCheckWarning(const Player* player) const;
+	void displayCheckWarning(const Player* ptrPlayer) const;
 	void displayGameOverMessage() const;
 };
 
