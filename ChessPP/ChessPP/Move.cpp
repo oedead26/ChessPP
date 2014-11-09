@@ -5,25 +5,27 @@ using namespace std;
 
 Move::Move(Square startSquare, Square endSquare)
 {
-
+	initialSquare = startSquare;
+	finalSquare = endSquare;
+	boolIsPawnPromotionMove = false;
 }
 
 void Move::setIsPawnPromotionMove(bool isPawnPromotionMove)
 {
-
+	boolIsPawnPromotionMove = isPawnPromotionMove;
 }
 
 Square Move::getInitialSquare() const
 {
-
+	return initialSquare;
 }
 
 Square Move::getFinalSquare() const
 {
-
+	return finalSquare;
 }
 
 bool Move::isPawnPromotionMove() const
 {
-
+	return boolIsPawnPromotionMove;
 }
