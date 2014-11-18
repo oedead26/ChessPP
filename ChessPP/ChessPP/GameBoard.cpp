@@ -129,11 +129,6 @@ void GameBoard::setPieceAt(int intRow, int intCol, Piece* ptrPiece)
 	arrSquares[intRow][intCol].setPieceAtSquare(ptrPiece);
 }
 
-void GameBoard::promotePawn(int intRow, int intCol, PieceType promotionType)
-{
-	dynamic_cast<Pawn*>(arrSquares[intRow][intCol].getPieceAtSquare())->promoteTo(promotionType);
-}
-
 Square GameBoard::getSquare(int intRow, int intCol) const
 {
 	return arrSquares[intRow][intCol];
@@ -279,6 +274,7 @@ bool GameBoard::isMovePossible(Move potentialMove) const
 	}
 	return false;
 }
+
 
 bool GameBoard::isCheck(PieceColor color) const
 {

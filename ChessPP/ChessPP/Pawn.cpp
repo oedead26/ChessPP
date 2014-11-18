@@ -13,11 +13,6 @@ void Pawn::setEnPassantCaptureSquare(Square* ptrSquare)
 	ptrEnPassantCaptureSquare = ptrSquare;
 }
 
-void Pawn::promoteTo(PieceType promotionType)
-{
-	pieceType = promotionType;
-}
-
 Square* Pawn::getEnPassantCaptureSquare() const
 {
 	return ptrEnPassantCaptureSquare;

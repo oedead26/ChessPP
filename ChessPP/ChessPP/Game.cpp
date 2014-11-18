@@ -2,7 +2,10 @@
 // CS 371 Final Project: Chess++
 #include "Game.h"
 #include "Pawn.h"
+#include "Knight.h"
+#include "Bishop.h"
 #include "Rook.h"
+#include "Queen.h"
 #include "King.h"
 using namespace std;
 
@@ -78,7 +81,6 @@ bool Game::isMoveLegal(Move potentialMove)
 
 void Game::makeMove(Move aMove, bool boolTempMove)
 {
-	// Add the current board to the vector of previous boards
 	vecPreviousBoards.push_back(currentBoard);
 
 	Square initialSquare = aMove.getInitialSquare();
@@ -176,15 +178,33 @@ void Game::makeMove(Move aMove, bool boolTempMove)
 		// Determine if an en passant capture will be possible on the next move
 		if (currentBoard.getPieceAt(finalSquare.getRow(), finalSquare.getCol())->getType() == PAWN)
 		{
-			if (finalSquare.getRow() - initialSquare.getRow() == -2)
+			if (abs(finalSquare.getRow() - initialSquare.getRow()) == 2)
 			{
 				Pawn* pawn = dynamic_cast<Pawn*>(currentBoard.getPieceAt(finalSquare.getRow(), finalSquare.getCol()));
-				pawn->setEnPassantCaptureSquare(&currentBoard.getSquare(finalSquare.getRow() + 1, finalSquare.getCol()));
-			}
-			else if (finalSquare.getRow() - initialSquare.getRow() == 2)
-			{
-				Pawn* pawn = dynamic_cast<Pawn*>(currentBoard.getPieceAt(finalSquare.getRow(), finalSquare.getCol()));
-				pawn->setEnPassantCaptureSquare(&currentBoard.getSquare(finalSquare.getRow() - 1, finalSquare.getCol()));
+				// See if there is an enemy pawn to the left
+				Piece* pieceToTheLeft = currentBoard.getPieceAt(finalSquare.getRow(), finalSquare.getCol() - 1);
+				if (pieceToTheLeft != nullptr)
+				{
+					if (pieceToTheLeft->getType() == PAWN && pieceToTheLeft->getColor() != pawn->getColor())
+					{
+						Pawn* enemyPawnToTheLeft = dynamic_cast<Pawn*>(pieceToTheLeft);
+						int intDirectionMultiplier = finalSquare.getRow() - initialSquare.getRow() == 2 ? 1 : -1;
+						Square* enPassantCaptureSquare = new Square(finalSquare.getRow() - intDirectionMultiplier, finalSquare.getCol(), currentBoard.getPieceAt(finalSquare.getRow() - intDirectionMultiplier, finalSquare.getCol()));
+						enemyPawnToTheLeft->setEnPassantCaptureSquare(enPassantCaptureSquare);
+					}
+				}
+				// See if there is an enemy pawn to the right
+				Piece* pieceToTheRight = currentBoard.getPieceAt(finalSquare.getRow(), finalSquare.getCol() + 1);
+				if (pieceToTheRight != nullptr)
+				{
+					if (pieceToTheRight->getType() == PAWN && pieceToTheRight->getColor() != pawn->getColor())
+					{
+						Pawn* enemyPawnToTheRight = dynamic_cast<Pawn*>(pieceToTheRight);
+						int intDirectionMultiplier = finalSquare.getRow() - initialSquare.getRow() == 2 ? 1 : -1;
+						Square* enPassantCaptureSquare = new Square(finalSquare.getRow() - intDirectionMultiplier, finalSquare.getCol(), currentBoard.getPieceAt(finalSquare.getRow() - intDirectionMultiplier, finalSquare.getCol()));
+						enemyPawnToTheRight->setEnPassantCaptureSquare(enPassantCaptureSquare);
+					}
+				}
 			}
 		}
 
@@ -209,14 +229,70 @@ void Game::unmakeLastMove()
 	vecPreviousMoves.pop_back();
 }
 
-vector<string> Game::getPGNStrings()
+void Game::promotePawn(int intRow, int intCol, PieceType promotionType)
+{
+	PieceColor color = currentBoard.getPieceAt(intRow, intCol)->getColor();
+	Piece* upgradedPiece;
+	if (promotionType == QUEEN)
+	{
+		upgradedPiece = new Queen(color, intRow, intCol);
+		currentBoard.setPieceAt(intRow, intCol, upgradedPiece);
+	}
+	else if (promotionType == KNIGHT)
+	{
+		upgradedPiece = new Knight(color, intRow, intCol);
+		currentBoard.setPieceAt(intRow, intCol, upgradedPiece);
+	}
+	else if (promotionType == BISHOP)
+	{
+		upgradedPiece = new Bishop(color, intRow, intCol);
+		currentBoard.setPieceAt(intRow, intCol, upgradedPiece);
+	}
+	else if (promotionType == ROOK)
+	{
+		upgradedPiece = new Rook(color, intRow, intCol);
+		currentBoard.setPieceAt(intRow, intCol, upgradedPiece);
+	}
+	Move pawnPromotionMove = vecPreviousMoves.back();
+	Square initialSquare = pawnPromotionMove.getInitialSquare();
+	Move move(Square(initialSquare.getRow(), initialSquare.getCol(), upgradedPiece), pawnPromotionMove.getFinalSquare());
+	move.setIsPawnPromotionMove(true);
+	vecPreviousMoves.pop_back();
+	vecPreviousMoves.push_back(move);
+}
+
+Move Game::getPreviousMove() const
+{
+	return vecPreviousMoves.back();
+}
+
+vector<string> Game::getPGNStrings() const
 {
 
 }
 
 vector<Piece*> Game::getCapturedPieces() const
 {
-
+	vector<Piece*> vecCapturedPieces;
+	for (Move aMove : vecPreviousMoves)
+	{
+		if (aMove.getFinalSquare().getPieceAtSquare() != nullptr)
+		{
+			vecCapturedPieces.push_back(aMove.getFinalSquare().getPieceAtSquare());
+		}
+		// En passant capture
+		else if (aMove.getInitialSquare().getPieceAtSquare()->getType() == PAWN)
+		{
+			if (abs(aMove.getFinalSquare().getRow() - aMove.getInitialSquare().getRow()) == 1 &&
+				abs(aMove.getFinalSquare().getCol() - aMove.getInitialSquare().getCol()) == 1)
+			{
+				PieceColor opponentColor = aMove.getInitialSquare().getPieceAtSquare()->getColor() == WHITE ? BLACK : WHITE;
+				int intVerticalMovement = aMove.getFinalSquare().getRow() - aMove.getInitialSquare().getRow();
+				vecCapturedPieces.push_back(new Pawn(opponentColor, aMove.getFinalSquare().getRow() - intVerticalMovement, aMove.getFinalSquare().getCol()));
+			}
+		}
+	}
+	return vecCapturedPieces;
 }
 
 bool Game::isCheckmate(PieceColor color)
@@ -225,11 +301,6 @@ bool Game::isCheckmate(PieceColor color)
 }
 
 bool Game::isStalemate(PieceColor color)
-{
-
-}
-
-bool Game::isGameOver()
 {
 
 }

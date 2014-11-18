@@ -30,11 +30,12 @@ public:
 	bool isMoveLegal(Move potentialMove);
 	void makeMove(Move aMove, bool boolTempMove = false);
 	void unmakeLastMove();
-	vector<string> getPGNStrings();
+	void promotePawn(int intRow, int intCol, PieceType promotionType);
+	Move getPreviousMove() const;
+	vector<string> getPGNStrings() const;
 	vector<Piece*> getCapturedPieces() const;
 	bool isCheckmate(PieceColor color);
 	bool isStalemate(PieceColor color);
-	bool isGameOver();
 };
 
 #endif

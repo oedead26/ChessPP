@@ -14,7 +14,6 @@ private:
 public:
 	Pawn(PieceColor color, int row, int col);
 	void setEnPassantCaptureSquare(Square* ptrSquare);
-	void promoteTo(PieceType promotionType);
 	Square* getEnPassantCaptureSquare() const;
 	string getAbbreviation() const;
 	bool isCapableOfMovingTo(int intFinalRow, int intFinalCol, bool boolIsFinalSquareOccupied) const;

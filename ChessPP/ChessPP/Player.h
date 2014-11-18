@@ -7,9 +7,6 @@
 #include <string>
 using namespace std;
 
-// Forward declaration
-class Game;
-
 class Player
 {
 private:
@@ -17,7 +14,6 @@ private:
 	PieceColor pieceColor;
 public:
 	Player(string name, PieceColor color);
-	void takeTurn(Game* ptrGame);
 	string getName() const;
 	PieceColor getPieceColor() const;
 };
