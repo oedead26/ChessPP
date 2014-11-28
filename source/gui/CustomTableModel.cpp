@@ -5,13 +5,9 @@ using namespace std;
 
 QVariant CustomTableModel::data(const QModelIndex &index, int intRole) const
 {
-    if (intRole == Qt::DisplayRole)
-    {
-        return QSqlQueryModel::data(index, intRole);
-    }
-    else if (intRole == Qt::TextAlignmentRole)
+    if (intRole == Qt::TextAlignmentRole)
     {
         return Qt::AlignCenter;
     }
-    return QVariant();
+    return QSqlQueryModel::data(index, intRole);
 }

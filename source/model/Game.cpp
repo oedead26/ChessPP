@@ -56,6 +56,7 @@ Game::Game(int intGameID)
             aMove.setIsPawnPromotionMove(true);
         }
         makeMove(aMove);
+        generatePGNString();
 
         if (aMove.isPawnPromotionMove())
         {
@@ -328,19 +329,78 @@ void Game::promotePawn(int intRow, int intCol, PieceType promotionType)
     vecPreviousMoves.push_back(move);
 }
 
-vector<string> Game::getMovesAsStrings() const
+void Game::generatePGNString()
 {
-	vector<string> vecMovesAsStrings;
-	for (Move m : vecPreviousMoves)
-	{
-		string strMoveAsString;
-		strMoveAsString += m.getInitialSquare().getFile();
-		strMoveAsString += to_string(m.getInitialSquare().getRank());
-		strMoveAsString += m.getFinalSquare().getFile();
-		strMoveAsString += to_string(m.getFinalSquare().getRank());
-		vecMovesAsStrings.push_back(strMoveAsString);
-	}
-	return vecMovesAsStrings;
+    string strPGNString;
+    Move aMove = *getPreviousMove();
+
+    Piece* pieceAtInitialSquare = aMove.getInitialSquare().getPieceAtSquare();
+    Piece* pieceAtFinalSquare = aMove.getFinalSquare().getPieceAtSquare();
+
+    // Castling move
+    int intColDifference = aMove.getFinalSquare().getCol() - aMove.getInitialSquare().getCol();
+    if (pieceAtInitialSquare->getType() == KING && abs(intColDifference) == 2)
+    {
+        strPGNString = intColDifference > 0 ? "O-O" : "O-O-O";
+    }
+    // Non-castling move
+    else
+    {
+        string strInitialFile = aMove.getInitialSquare().getFile();
+        string strPieceAbbreviation = pieceAtInitialSquare->getAbbreviation();
+        transform(strPieceAbbreviation.begin(), strPieceAbbreviation.end(), strPieceAbbreviation.begin(), ::toupper);
+        string strFinalSquare = aMove.getFinalSquare().getFile() + to_string(aMove.getFinalSquare().getRank());
+        string strCaptureString = pieceAtFinalSquare != nullptr ? "x" : "";
+
+        // Pawn promotion move
+        if (aMove.isPawnPromotionMove())
+        {
+            // Pawn captures another piece
+            if (strCaptureString == "x")
+            {
+                strPGNString += strInitialFile;
+            }
+            strPGNString += (strCaptureString + strFinalSquare + "=" + strPieceAbbreviation);
+        }
+        // Pawn move
+        else if (pieceAtInitialSquare->getType() == PAWN)
+        {
+            bool boolIsEnPassantCapture = abs(intColDifference) == 1 && pieceAtFinalSquare == nullptr;
+            if (boolIsEnPassantCapture)
+            {
+                strCaptureString = "x";
+            }
+            // Pawn captures another piece
+            if (strCaptureString == "x")
+            {
+                strPGNString += strInitialFile;
+            }
+            strPGNString += (strCaptureString + strFinalSquare);
+            if (boolIsEnPassantCapture)
+            {
+                strPGNString += "e.p.";
+            }
+        }
+        // Non-pawn move
+        else
+        {
+            strPGNString = strPieceAbbreviation + strCaptureString + strFinalSquare;
+        }
+    }
+
+    PieceColor opponentColor = pieceAtInitialSquare->getColor() == WHITE ? BLACK : WHITE;
+    // Checkmate
+    if (isCheckmate(opponentColor))
+    {
+        strPGNString += "#";
+    }
+    // Check
+    else if (currentBoard.isCheck(opponentColor))
+    {
+        strPGNString += "+";
+    }
+
+    vecPGNStrings.push_back(strPGNString);
 }
 
 vector<Piece*> Game::getCapturedPieces() const

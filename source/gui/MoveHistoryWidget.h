@@ -16,7 +16,7 @@ private:
     QTableWidget* tableWidget;
 public:
     MoveHistoryWidget();
-    void updateTable(vector<string> vecMovesAsStrings);
+    void updateTable(vector<string> vecPGNStrings);
 };
 
 #endif

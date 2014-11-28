@@ -70,7 +70,7 @@ void GameWindow::setupGUI()
     QObject::connect(saveGameButton, SIGNAL(clicked()), this, SLOT(saveGameButtonHandler()));
     rightPanelLayout->addWidget(saveGameButton);
     moveHistoryWidget = new MoveHistoryWidget;
-    moveHistoryWidget->updateTable(ptrGame->getMovesAsStrings());
+    moveHistoryWidget->updateTable(ptrGame->getPGNStrings());
     rightPanelLayout->addWidget(moveHistoryWidget);
     capturedPiecesWidget = new CapturedPiecesWidget;
     capturedPiecesWidget->updateCapturedPieces(ptrGame->getCapturedPieces());
@@ -170,7 +170,7 @@ GameWindow::GameWindow(string strWhitePlayerName, string strBlackPlayerName)
 GameWindow::GameWindow(int intGameID)
 {
     ptrGame = new Game(intGameID);
-    colorToMove = ptrGame->getMovesAsStrings().size() % 2 == 0 ? WHITE : BLACK;
+    colorToMove = ptrGame->getPGNStrings().size() % 2 == 0 ? WHITE : BLACK;
     boolIsInitialClick = true;
     setupGUI();
 }
@@ -225,8 +225,10 @@ void GameWindow::tileHandler(int intRow, int intCol)
                     }
                 }
 
+                ptrGame->generatePGNString();
+
                 capturedPiecesWidget->updateCapturedPieces(ptrGame->getCapturedPieces());
-                moveHistoryWidget->updateTable(ptrGame->getMovesAsStrings());
+                moveHistoryWidget->updateTable(ptrGame->getPGNStrings());
 
                 colorToMove = colorToMove == WHITE ? BLACK : WHITE;
                 if (ptrGame->isCheckmate(colorToMove) || ptrGame->isStalemate(colorToMove))

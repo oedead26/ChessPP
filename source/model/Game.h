@@ -15,9 +15,10 @@ class Game
 private:
 	Player* ptrWhitePlayer;
 	Player* ptrBlackPlayer;
-	GameBoard currentBoard;
+    GameBoard currentBoard;
     vector<GameBoard> vecPreviousBoards;
     vector<Move> vecPreviousMoves;
+    vector<string> vecPGNStrings;
 	bool doesMovePutTeamInCheck(Move potentialMove, PieceColor color);
 public:
 	Game(Player* ptrWhite, Player* ptrBlack);
@@ -44,7 +45,11 @@ public:
     {
         return vecPreviousMoves.size() > 0 ? &vecPreviousMoves.back() : nullptr;
     }
-	vector<string> getMovesAsStrings() const;
+    void generatePGNString();
+    vector<string> getPGNStrings() const
+    {
+        return vecPGNStrings;
+    }
 	vector<Piece*> getCapturedPieces() const;
 	bool isCheckmate(PieceColor color);
 	bool isStalemate(PieceColor color);

@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QSqlQuery>
+#include <QSqlRecord>
 #include <QSqlTableModel>
 #include <QVBoxLayout>
 using namespace std;
@@ -17,7 +18,7 @@ GameSelectionDialog::GameSelectionDialog()
     databaseManager = new DatabaseManager;
     databaseManager->connectToDatabase();
     tableModel = new CustomTableModel(this);
-    tableModel->setQuery(QString("SELECT Date,Time,PlayerWhiteName,PlayerBlackName FROM Games ORDER BY Date DESC"), databaseManager->getDatabase());
+    tableModel->setQuery(QString("SELECT GameID,Date,Time,PlayerWhiteName,PlayerBlackName FROM Games ORDER BY Date DESC, TIME DESC"), databaseManager->getDatabase());
     tableModel->insertColumn(0);
     tableModel->setHeaderData(0, Qt::Horizontal, "");
     tableModel->setHeaderData(3, Qt::Horizontal, "White");
@@ -27,12 +28,14 @@ GameSelectionDialog::GameSelectionDialog()
     tableView->horizontalHeader()->setStyleSheet("QHeaderView { color:rgb(0,127,255); }");
 
     int intNumOfRows = tableModel->rowCount();
-    for (int i = 1; i <= intNumOfRows; i++)
+    for (int i = 0; i < intNumOfRows; i++)
     {
-        SelectButton* selectButton = new SelectButton(i);
-        tableView->setIndexWidget(tableView->model()->index(intNumOfRows - i, 0), selectButton);
+        int intGameID = tableModel->record(i).value(1).toString().toInt();
+        SelectButton* selectButton = new SelectButton(intGameID);
+        tableView->setIndexWidget(tableView->model()->index(i, 0), selectButton);
         QObject::connect(selectButton, SIGNAL(clicked(int)), this, SLOT(selectButtonHandler(int)));
     }
+    tableModel->removeColumn(1);
 
     QLabel* playerFilterLabel = new QLabel("Filter by player:");
     playerFilterLineEdit = new QLineEdit;
@@ -65,24 +68,26 @@ void GameSelectionDialog::filterButtonHandler()
     string strPlayerName = playerFilterLineEdit->text().toStdString();
     if (strPlayerName == "")
     {
-        strQuery = "SELECT Date,Time,PlayerWhiteName,PlayerBlackName FROM Games ORDER BY Date DESC";
+        strQuery = "SELECT GameID,Date,Time,PlayerWhiteName,PlayerBlackName FROM Games ORDER BY Date DESC, Time DESC";
     }
     else
     {
-        strQuery = "SELECT Date,Time,PlayerWhiteName,PlayerBlackName FROM Games WHERE PlayerWhiteName='" + strPlayerName + "'" +
+        strQuery = "SELECT GameID,Date,Time,PlayerWhiteName,PlayerBlackName FROM Games WHERE PlayerWhiteName='" + strPlayerName + "'" +
                 " OR PlayerBlackName='" + strPlayerName + "' ORDER BY Date DESC";
     }
     tableModel->setQuery(QString::fromStdString(strQuery), databaseManager->getDatabase());
     tableModel->insertColumn(0);
     tableModel->setHeaderData(0, Qt::Horizontal, "");
-    tableModel->setHeaderData(3, Qt::Horizontal, "White");
-    tableModel->setHeaderData(4, Qt::Horizontal, "Black");
+    tableModel->setHeaderData(4, Qt::Horizontal, "White");
+    tableModel->setHeaderData(5, Qt::Horizontal, "Black");
 
     int intNumOfRows = tableModel->rowCount();
-    for (int i = 1; i <= intNumOfRows; i++)
+    for (int i = 0; i < intNumOfRows; i++)
     {
-        SelectButton* selectButton = new SelectButton(i);
-        tableView->setIndexWidget(tableView->model()->index(intNumOfRows - i, 0), selectButton);
+        int intGameID = tableModel->record(i).value(1).toString().toInt();
+        SelectButton* selectButton = new SelectButton(intGameID);
+        tableView->setIndexWidget(tableView->model()->index(i, 0), selectButton);
         QObject::connect(selectButton, SIGNAL(clicked(int)), this, SLOT(selectButtonHandler(int)));
     }
+    tableModel->removeColumn(1);
 }

@@ -25,11 +25,11 @@ MoveHistoryWidget::MoveHistoryWidget()
     setLayout(layout);
 }
 
-void MoveHistoryWidget::updateTable(vector<string> vecMovesAsStrings)
+void MoveHistoryWidget::updateTable(vector<string> vecPGNStrings)
 {
-    if (vecMovesAsStrings.size() > 0)
+    if (vecPGNStrings.size() > 0)
     {
-        tableWidget->setRowCount(static_cast<int>(vecMovesAsStrings.size() / 2 + vecMovesAsStrings.size() % 2));
+        tableWidget->setRowCount(static_cast<int>(vecPGNStrings.size() / 2 + vecPGNStrings.size() % 2));
     }
     else
     {
@@ -38,16 +38,16 @@ void MoveHistoryWidget::updateTable(vector<string> vecMovesAsStrings)
 
     int intRowNumber = 0;
     int intMoveIndex = 0;
-    while (intMoveIndex < vecMovesAsStrings.size())
+    while (intMoveIndex < vecPGNStrings.size())
     {
-        QTableWidgetItem* playerWhiteMove = new QTableWidgetItem(QString::fromStdString(vecMovesAsStrings.at(intMoveIndex)));
+        QTableWidgetItem* playerWhiteMove = new QTableWidgetItem(QString::fromStdString(vecPGNStrings.at(intMoveIndex)));
         playerWhiteMove->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         tableWidget->setItem(intRowNumber, 0, playerWhiteMove);
         intMoveIndex++;
 
-        if (intMoveIndex < vecMovesAsStrings.size())
+        if (intMoveIndex < vecPGNStrings.size())
         {
-            QTableWidgetItem* playerBlackMove = new QTableWidgetItem(QString::fromStdString(vecMovesAsStrings.at(intMoveIndex)));
+            QTableWidgetItem* playerBlackMove = new QTableWidgetItem(QString::fromStdString(vecPGNStrings.at(intMoveIndex)));
             playerBlackMove->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             tableWidget->setItem(intRowNumber, 1, playerBlackMove);
             intMoveIndex++;
