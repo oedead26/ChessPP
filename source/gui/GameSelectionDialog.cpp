@@ -78,8 +78,8 @@ void GameSelectionDialog::filterButtonHandler()
     tableModel->setQuery(QString::fromStdString(strQuery), databaseManager->getDatabase());
     tableModel->insertColumn(0);
     tableModel->setHeaderData(0, Qt::Horizontal, "");
-    tableModel->setHeaderData(4, Qt::Horizontal, "White");
-    tableModel->setHeaderData(5, Qt::Horizontal, "Black");
+    tableModel->setHeaderData(3, Qt::Horizontal, "White");
+    tableModel->setHeaderData(4, Qt::Horizontal, "Black");
 
     int intNumOfRows = tableModel->rowCount();
     for (int i = 0; i < intNumOfRows; i++)
